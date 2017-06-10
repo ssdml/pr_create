@@ -30,7 +30,7 @@ class Project {
 		array_map(array($this, 'createDir'), $this->folders_to_create);
 
 		$this->createTxtFile('jira.txt');
-		exec("\"$this->texteditor_path\" jira.txt &");
+		exec("\"$this->texteditor_path\" jira.txt");
 
 		$sublime_project_file = array('folders' => array( array('path' => $this->project_path)));
 		$this->createTxtFile("$this->project_name.sublime-project", json_encode($sublime_project_file));
@@ -47,7 +47,7 @@ class Project {
 	}
 	protected function createKeepassEntrie() {
 		if ($this->keepass_path && $this->keepass_database)
-			exec("\"$this->keepass_path\" \"$this->keepass_database\" &");
+			exec("\"$this->keepass_path\" \"$this->keepass_database\"");
 	}
 
 	protected function createDir($dirname, $recuresive=true) {
