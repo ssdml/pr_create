@@ -1,10 +1,10 @@
 <?php
 class Project {
-	protected $projects_folder = '';
-	protected $work_folder = 'work';
-	protected $backup_folder = 'backup';
 	protected $project_name = '';
+	protected $projects_folder = '';
 	protected $path_separator = '\\';
+
+	protected $folders_to_create = array('work', 'backup', 'doc');
 
 	protected $texteditor_path = '';
 
@@ -26,11 +26,14 @@ class Project {
 		$this->createDir($this->project_path);
 		chdir($this->project_path);
 
-		$this->createDir($this->work_folder);
-		$this->createDir($this->backup_folder);
+
+		array_map(array($this, 'createDir'), $this->folders_to_create);
 
 		$this->createTxtFile('jira.txt');
 		exec("\"$this->texteditor_path\" jira.txt &");
+
+		$sublime_project_file = array('folders' => array( array('path' => $this->project_path)));
+		$this->createTxtFile("$this->project_name.sublime-project", json_encode($sublime_project_file));
 
 		$this->createKeepassEntrie();
 
@@ -41,7 +44,6 @@ class Project {
 		foreach ($ini as $key => $value) {
 			$this->$key = $value;
 		}
-		print_r($this0->projects_folder);
 	}
 	protected function createKeepassEntrie() {
 		if ($this->keepass_path && $this->keepass_database)
