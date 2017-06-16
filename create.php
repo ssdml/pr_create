@@ -31,7 +31,6 @@ class Project {
 
 		array_map(array($this, 'createDir'), $this->folders_to_create);
 
-
 		if (strpos($this->texteditor, 'sublime') !== false) {
 			exec('"' . $this->texteditor. '" "' . $this->createSublimeProject() .'"');
 			$this->createFPTSyncSettings();
@@ -40,7 +39,18 @@ class Project {
 		$this->createTxtFile($this->task_dir . $this->ps . 'jira.txt');
 		$this->createTxtFile($this->task_dir . $this->ps . 'task.txt');
 
+		$this->gitInit();
+
 		$this->createKeepassEntrie();
+
+	}
+
+	protected function gitInit() {
+		chdir($this->work_dir);
+		$gitIgnore = '.gitignore';
+		$this->createTxtFile($gitIgnore, ".gitignore\nftpsync.settings");
+		exec("git init");
+		chdir($this->project_path);
 
 	}
 
