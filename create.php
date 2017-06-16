@@ -3,13 +3,10 @@ class Project {
 	protected $project_name = '';
 	protected $projects_folder = '';
 	protected $ps = '\\'; // path separator
-
 	protected $work_dir = 'work';
 	protected $task_dir = 'task';
 	protected $folders_to_create = array();
-
 	protected $texteditor = '';
-
 	protected $keepass = '';
 	protected $keepass_database = '';
 
@@ -42,7 +39,6 @@ class Project {
 		$this->gitInit();
 
 		$this->createKeepassEntrie();
-
 	}
 
 	protected function gitInit() {
@@ -51,7 +47,6 @@ class Project {
 		$this->createTxtFile($gitIgnore, ".gitignore\nftpsync.settings");
 		exec("git init");
 		chdir($this->project_path);
-
 	}
 
 	protected function createSublimeProject() {
@@ -73,7 +68,6 @@ class Project {
 		);
 		$this->createTxtFile('ftpsync.settings', json_encode($sublime_ftpsync, JSON_PRETTY_PRINT));
 		chdir($this->project_path);
-
 	}
 
 	protected function loadConfig($iniFile) {
@@ -82,6 +76,7 @@ class Project {
 			$this->$key = $value;
 		}
 	}
+
 	protected function createKeepassEntrie() {
 		if ($this->keepass && $this->keepass_database)
 			exec("\"$this->keepass\" \"$this->keepass_database\"");
@@ -108,5 +103,4 @@ $project_name = trim(fgets(STDIN));
 
 $proj = new Project($project_name);
 $proj->create();
-
 ?>
